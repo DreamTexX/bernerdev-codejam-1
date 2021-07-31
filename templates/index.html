@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{> head }}
+  <body>
+    <div class="window" id="welcome">
+      <span class="title">Welcome to {{ title }}</span>
+      <div class="content">
+        {{%if !user }}
+        
+        <p>
+          Welcome to {{ title }}. Please choose a option below to get startet.
+        </p>
+        
+        <div class="button-bar">
+          <button onclick="displayLogin()">Log On</button>
+          <button onclick="displayRegister()">Sign Up</button>
+        </div>
+        
+        {{%endif }} {{%if user }}
+        
+        <p>
+          Hello {{ user.email }}. How are you today? Feel like doing somthing?
+        </p>
+
+        <div class="button-bar">
+          <a class="button" href="/logout">Log Out</a>
+        </div>
+
+        {{%endif }}
+      </div>
+    </div>
+
+    {{%if !user }}
+    <div class="window" hidden id="login">
+      <span class="title">Log On to {{ title }}</span>
+      <form action="/login" method="POST" class="content">
+        <label for="email">E-Mail:</label>
+        <input type="email" name="email" id="email" required />
+        
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required />
+        
+        <div class="button-bar">
+          <button type="submit">Ok</button>
+          <button onclick="displayWelcome()">Cancel</button>
+        </div>
+      </form>
+    </div>
+    <div class="window" hidden id="register">
+      <span class="title">Sign Up to {{ title }}</span>
+      <form action="/register" method="POST" class="content">
+        <label for="email">E-Mail:</label>
+        <input type="email" name="email" id="email" required />
+        
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required minlength="8" />
+        
+        <label for="password-confirm">Confirm:</label>
+        <input
+          type="password"
+          name="password-confirm"
+          id="password-confirm"
+          required
+          minlength="8"
+        />
+        
+        <div class="button-bar">
+          <button type="submit">Ok</button>
+          <button onclick="displayWelcome()">Cancel</button>
+        </div>
+      </form>
+    </div>
+    {{%endif}}
+
+    <script>
+      const errorCodeList = {
+        blocked:
+          "You are currently blocked from any action. Retry again later.",
+        missing_information: "Please fill out every field.",
+        combination_not_found:
+          "There was no user found with this credentials. Check your password and your email.",
+        unmatching_passwords:
+          "Your passwords haven't matched, please retype them.",
+        already_in_use:
+          "This Account is already taken, log on or choose a different e-mail.",
+      };
+      const params = new URLSearchParams(window.location.search);
+      const scope = {{%if !banned }} params.get("scope") {{%endif}}{{%if banned}} "welcome" {{%endif}};
+      const error = {{%if !banned }} params.get("error") {{%endif}}{{%if banned}} "blocked" {{%endif}};
+      const welcomeWin = document.getElementById("welcome");
+
+      window.history.replaceState({}, document.title, "/");
+
+      if (
+        scope &&
+        error &&
+        ["register", "login", "welcome"].includes(scope) &&
+        Object.keys(errorCodeList).includes(error)
+      ) {
+        if (scope !== "welcome") {
+          const win = document.getElementById(scope);
+          win.hidden = false;
+          welcomeWin.hidden = true;
+        }
+        displayError(error);
+      }
+
+      function displayError(error) {
+        const template = `
+          <span class="title">Attention required!</span>
+          <div class="content">
+            <p>${errorCodeList[error]}</p>
+            <div class="button-bar">
+              <button>Ok</button>
+            </div>
+          </div>
+        `;
+        const win = document.createElement("div");
+        win.classList.add("window");
+        win.innerHTML = template;
+        const okButton = win.querySelector("button");
+        okButton.onclick = () => {
+          win.remove();
+        };
+
+        document.body.append(win);
+      }
+
+      function displayLogin() {
+        welcomeWin.hidden = true;
+        document.getElementById("login").hidden = false;
+      }
+
+      function displayRegister() {
+        welcomeWin.hidden = true;
+        document.getElementById("register").hidden = false;
+      }
+
+      function displayWelcome() {
+        document.getElementById("register").hidden = true;
+        document.getElementById("login").hidden = true;
+        welcomeWin.hidden = false;
+      }
+    </script>
+  </body>
+</html>

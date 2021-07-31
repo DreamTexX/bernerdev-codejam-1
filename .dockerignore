@@ -1,0 +1,7 @@
+data.json
+Dockerfile
+makefile
+README.md
+.vscode/
+.gitignore
+.dockerignore
