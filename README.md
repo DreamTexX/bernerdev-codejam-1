@@ -6,7 +6,7 @@
 
 > Create a secured web application with a login, registration and at least one protected page.
 
-- store password an user data
+- store password and user data
 - passwords should not get stored in plaintext
 - no ajax, no rest
 - if a user fails three times giving in a password, his ip should get blocked (be aware of reverse proxies)
@@ -20,7 +20,7 @@
 - only native language libraries are allowed, no third party libs
 - using external services is not allowed
 - downloading libraries and/or code is not allowed, the code must be self written
-- source code must get uploaded into a public repo til deadline
+- source code must get uploaded into a public repo until deadline
 
 ## Running
 You can view a running demo at [http://1codejam.dreamtexx.fun](http://1codejam.dreamtexx.fun)
@@ -40,4 +40,4 @@ deno --unstable run --allow-net --allow-read --allow-write src/main.ts
 
 ## Credits
 
-Thank you for Bernerdev to organizing and managing this coding jam. If you want to take part in or have propositions for future jams, join our discord: [https://discord.gg/EGHy5tXBnj](https://discord.gg/EGHy5tXBnj)
+Thanks to for Bernerdev to organizing and managing this coding jam. If you want to take part in or have propositions for future jams, join our discord: [https://discord.gg/EGHy5tXBnj](https://discord.gg/EGHy5tXBnj)
