@@ -23,7 +23,7 @@
 - source code must get uploaded into a public repo til deadline
 
 ## Running
-You can view a running demo at [http://1.codejam.dreamtexx.fun](http://1.codejam.dreamtexx.fun)
+You can view a running demo at [http://1codejam.dreamtexx.fun](http://1codejam.dreamtexx.fun)
 
 With docker:
 ```bash
